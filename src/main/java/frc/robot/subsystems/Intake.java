@@ -29,7 +29,6 @@ import frc.robot.constants.IntakeConstants;
 public class Intake extends SubsystemBase {
   private final TalonFX m_pivotMotor = new TalonFX(41, "CANivore");
   private final TalonFX m_rollerMotor = new TalonFX(42, "CANivore");
-  private final CANrange intakeCANrange = new CANrange(45, "CANivore");
 
   LEDs m_Leds;
 
@@ -39,9 +38,6 @@ public class Intake extends SubsystemBase {
     
     var pivotMotorConfigs = new TalonFXConfiguration();
 
-    var intakeCANRangeConfigs = new CANrangeConfiguration();
-
-    intakeCANRangeConfigs.ProximityParams.ProximityThreshold = 0.3;
 
     pivotMotorConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     pivotMotorConfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
@@ -303,16 +299,6 @@ public class Intake extends SubsystemBase {
   /**
   @return true if detects coral, false if it doesn't
   */
-  public boolean getIntakeCANrangeBeamBreak() {
-    // Max distance away from sensor coral can be while still considering it "detected" distance units is meters
-    return intakeCANrange.getIsDetected().getValue();
-  //   double maxDetectableDistanceMeters = 0.3;
-  //   if (intakeCANrange.getDistance().getValueAsDouble() <= maxDetectableDistanceMeters) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
-  }
   // public Command runIntakeRollersUntilCANrange() {
   //   return new ParallelDeadlineGroup(null, null)
   // }
