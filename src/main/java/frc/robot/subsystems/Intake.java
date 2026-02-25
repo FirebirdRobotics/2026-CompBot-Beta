@@ -63,7 +63,7 @@ public class Intake extends SubsystemBase {
     slot0Configs.kP = 0.0; // A positio n error of 2.5 rotations results in 12 V output
     slot0Configs.kI = 0.0; // no output for integrated error
     slot0Configs.kD = 0.0; // A velocity error of 1 rps results in 0.1 V output
-    slot0Configs.GravityType = GravityTypeValue.Arm_Cosine;
+    slot0Configs.GravityType = GravityTypeValue.Elevator_Static;
     
 
     // var slot1Configs = pivotMotorConfigs.Slot1;
