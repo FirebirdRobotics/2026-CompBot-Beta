@@ -41,7 +41,7 @@ public class Intake extends SubsystemBase {
 
     pivotMotorConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     pivotMotorConfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
-    pivotMotorConfigs.Feedback.SensorToMechanismRatio = 23.265306122;
+    pivotMotorConfigs.Feedback.SensorToMechanismRatio = 6.333;
     pivotMotorConfigs.CurrentLimits.SupplyCurrentLimit = 60;
     pivotMotorConfigs.CurrentLimits.StatorCurrentLimit = 60;
 
@@ -192,68 +192,6 @@ public class Intake extends SubsystemBase {
   }
   
 
-  // public void setAllClosedLoopConfigsTo0() {
-  //   var pivotMotorConfigs = new TalonFXConfiguration();
-
-  //   pivotMotorConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-  //   pivotMotorConfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
-  //   pivotMotorConfigs.Feedback.SensorToMechanismRatio = 23.265306122;
-    
-
-
-  //   // set slot 0 gains
-  //   var slot0Configs = pivotMotorConfigs.Slot0;
-  //   slot0Configs.kG = 0.0; // 
-  //   slot0Configs.kS = 0.0; // Add 0.25 V output to overcome static friction
-  //   slot0Configs.kV = 0.0; // A velocity target of 1 rps results in 0.12 V output
-  //   slot0Configs.kA = 0.0; // An acceleration of 1 rps/s requires 0.01 V output
-  //   slot0Configs.kP = 0; // A positio n error of 2.5 rotations results in 12 V output
-  //   slot0Configs.kI = 0; // no output for integrated error
-  //   slot0Configs.kD = 0.0; // A velocity error of 1 rps results in 0.1 V output
-  //   slot0Configs.GravityType = GravityTypeValue.Arm_Cosine;
-
-  //   // need to 
-  //   // var positionVoltageCongigs = pivotMotorConfigs.
-
-  //   // set Motion Magic settings
-  //   var motionMagicConfigs = pivotMotorConfigs.MotionMagic;
-  //   motionMagicConfigs.MotionMagicCruiseVelocity = 30.0; // Target cruise velocity of 80 rps
-  //   motionMagicConfigs.MotionMagicAcceleration = 30.0; // Target acceleration of 160 rps/s (0.5 seconds)
-  //   motionMagicConfigs.MotionMagicJerk = 0.0; // Target jerk of 1600 rps/s/s (0.1 seconds)
-
-  //   m_pivotMotor.getConfigurator().apply(pivotMotorConfigs);
-
-  // }
-
-  // public void setAllClosedLoopConfigsToCorrectValues() {
-  //   var pivotMotorConfigs = new TalonFXConfiguration();
-
-  //   // set Motion Magic settings
-  //   var motionMagicConfigs = pivotMotorConfigs.MotionMagic;
-  //   motionMagicConfigs.MotionMagicCruiseVelocity = 5.0; // Target cruise velocity of 80 rps
-  //   motionMagicConfigs.MotionMagicAcceleration = 5.0; // Target acceleration of 160 rps/s (0.5 seconds)
-  //   motionMagicConfigs.MotionMagicJerk = 0.0; // Target jerk of 1600 rps/s/s (0.1 seconds)
-
-
-  //   // set slot 0 gains
-  //   var slot0Configs = pivotMotorConfigs.Slot0;
-  //   slot0Configs.kG = 0.0; // 
-  //   slot0Configs.kS = 0.0; // Add 0.25 V output to overcome static friction
-  //   slot0Configs.kV = 0.46000000834465027; // A velocity target of 1 rps results in 0.12 V output
-  //   slot0Configs.kA = 0.0; // An acceleration of 1 rps/s requires 0.01 V output
-  //   slot0Configs.kP = 20; // A positio n error of 2.5 rotations results in 12 V output
-  //   slot0Configs.kI = 0.00001; // no output for integrated error
-  //   slot0Configs.kD = 0.0; // A velocity error of 1 rps results in 0.1 V output
-  //   slot0Configs.GravityType = GravityTypeValue.Arm_Cosine;
-
-  //   // need to 
-  //   // var positionVoltageCongigs = pivotMotorConfigs.
-
-
-  //   m_pivotMotor.getConfigurator().apply(pivotMotorConfigs);
-
-
-  // }
 
 
   
@@ -296,12 +234,6 @@ public class Intake extends SubsystemBase {
 
   // }
 
-  /**
-  @return true if detects coral, false if it doesn't
-  */
-  // public Command runIntakeRollersUntilCANrange() {
-  //   return new ParallelDeadlineGroup(null, null)
-  // }
 
 
 
