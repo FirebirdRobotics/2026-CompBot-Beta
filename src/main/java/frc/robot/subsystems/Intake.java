@@ -27,8 +27,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.constants.IntakeConstants;
 
 public class Intake extends SubsystemBase {
-  private final TalonFX m_pivotMotor = new TalonFX(41, "CANivore");
-  private final TalonFX m_rollerMotor = new TalonFX(42, "CANivore");
+  private final TalonFX m_pivotMotor = new TalonFX(IntakeConstants.pivotMotorCANID, "CANivore");
+  private final TalonFX m_rollerMotor = new TalonFX(IntakeConstants.rollerMotorCANID, "CANivore");
 
   LEDs m_Leds;
 
