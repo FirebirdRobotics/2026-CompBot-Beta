@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.FloorRollerConstants;
+
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
@@ -19,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 public class FloorRollers extends SubsystemBase {
   /** Creates a new FloorRollers. */
 
-  private final TalonFX m_floorroller = new TalonFX(41, "CANivore"); // change to different motor, idk what the motor is supposed to be
+  private final TalonFX m_floorroller = new TalonFX(FloorRollerConstants.floorRollerMotorCANID, "CANivore"); // change to different motor, idk what the motor is supposed to be
 
   public FloorRollers() {
 
