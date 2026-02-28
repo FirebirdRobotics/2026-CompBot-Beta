@@ -20,8 +20,6 @@ import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.Waypoint;
 
-// import dev.doglog.DogLog;
-// import dev.doglog.DogLogOptions;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -35,7 +33,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Commands.AlignToReef;
-// import frc.robot.Commands.IntakingWithIntakeUpWhileCoralInBot;
 import frc.robot.Commands.AlignToReef.ReefSide;
 import frc.robot.constants.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -43,13 +40,11 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.EndEffector;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LEDs;
-// import frc.robot.subsystems.TestIntake;
 // import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.TransferRollers;
 
 public class RobotContainer {
-    // TestIntake m_TestIntake = new TestIntake();
 
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
