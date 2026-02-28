@@ -10,6 +10,8 @@ import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.DutyCycleOut;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
@@ -89,12 +91,23 @@ public class Shooter extends SubsystemBase {
     m_leader.setControl(m_request.withVelocity(8).withFeedForward(0.5));
 
   }
+  
+  // percent should be a value between -1 and 1, representing the percentage of max voltage to apply to the motor
+  public void setPercentOutput(double percent) {
+    m_leader.setControl(new DutyCycleOut(percent));
+  }
 
-public Command testShooter() {
+  public Command setVelocityCommand(double RPM) {
 
-    return runOnce(() -> goToRPM(500));
+    return runOnce(() -> goToRPM(RPM));
 
 
+  }
+
+  
+  public Command setPercentOutputCommand(double percent) {
+    return runOnce(() -> setPercentOutput(percent));
+  
   }
 
   public Command goTo400RPM() {

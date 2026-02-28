@@ -129,12 +129,11 @@ public class RobotContainer {
 
 
 
-        joystick.a().whileTrue(m_Shooter.testShooter());
 
 
-        joystick.b().whileTrue(drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
-        ));
+        // joystick.b().whileTrue(drivetrain.applyRequest(() ->
+        //     point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
+        // ));
 
         joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(0.5).withVelocityY(0))
@@ -161,6 +160,13 @@ public class RobotContainer {
         joystick.y().onTrue(m_transferRollers.manualRollBackward(0.5));
         joystick.y().onFalse(m_transferRollers.manualRollBackward(0));
 
+        joystick.a().onTrue(m_Shooter.setVelocityCommand(100.0));
+        joystick.a().onFalse(m_Shooter.setVelocityCommand(0));
+
+        joystick.b().onTrue(m_Shooter.setPercentOutputCommand(0.4));
+        joystick.b().onFalse(m_Shooter.setPercentOutputCommand(0));
+
+        
 
 
 
