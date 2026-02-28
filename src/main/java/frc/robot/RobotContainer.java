@@ -38,6 +38,7 @@ import frc.robot.constants.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.EndEffector;
+import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LEDs;
 // import frc.robot.subsystems.Vision;
@@ -84,6 +85,7 @@ public class RobotContainer {
 
     EndEffector m_EndEffector = new EndEffector(m_Leds);
 
+    Hood m_Hood = new Hood();
 
     // Vision vision;
 
@@ -160,11 +162,11 @@ public class RobotContainer {
         joystick.y().onTrue(m_transferRollers.manualRollBackward(0.5));
         joystick.y().onFalse(m_transferRollers.manualRollBackward(0));
 
-        joystick.a().onTrue(m_Shooter.setVelocityCommand(100.0));
-        joystick.a().onFalse(m_Shooter.setVelocityCommand(0));
+        joystick.a().onTrue(m_Hood.CommandSetDutyCycleOutput(0.1));
+        joystick.a().onFalse(m_Hood.CommandSetDutyCycleOutput(0));
 
-        joystick.b().onTrue(m_Shooter.setPercentOutputCommand(0.4));
-        joystick.b().onFalse(m_Shooter.setPercentOutputCommand(0));
+        joystick.b().onTrue(m_Hood.CommandSetDutyCycleOutput(-0.1));
+        joystick.b().onFalse(m_Hood.CommandSetDutyCycleOutput(0));
 
         
 

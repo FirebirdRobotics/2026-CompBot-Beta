@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
@@ -58,6 +59,14 @@ public class Hood extends SubsystemBase {
 
     m_pivotMotor.getConfigurator().apply(pivotMotorConfigs);
 
+  }
+
+  public void setDutyCycleOutput(double dutyCycle) {
+    m_pivotMotor.setControl(new DutyCycleOut(dutyCycle));
+  }
+
+  public Command CommandSetDutyCycleOutput(double dutyCycle) {
+    return new InstantCommand(()-> setDutyCycleOutput(dutyCycle), this);
   }
 
   public void goToAngle(double angle) {
