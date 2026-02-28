@@ -22,8 +22,9 @@ public class Intake extends SubsystemBase {
   private final TalonFX m_pivotMotor = new TalonFX(41, "CANivore");
   private final TalonFX m_rollerMotor = new TalonFX(42, "CANivore");
 
-  /** Creates a new Intake. */
-  public Intake() {
+  /** Creates a new Intake. 
+ * @param m_Leds */
+  public Intake(LEDs m_Leds) {
     var pivotMotorConfigs = new TalonFXConfiguration();
     
     pivotMotorConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
