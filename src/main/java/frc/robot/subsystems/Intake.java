@@ -137,41 +137,6 @@ public class Intake extends SubsystemBase {
 
   }
 
-  /*The following code that was commented out was initially intended to be used to make 
-  the intake free of any motor power trying to make it rigid on the deployed position
-   -- we ended up not using it because we got the intake working without
-    it needing to passive/floppy in the deployed position */
-    
-  // public void setCurrentLimit0() {
-  //   var pivotMotorConfigs = new TalonFXConfiguration();
-
-  //   pivotMotorConfigs.CurrentLimits.StatorCurrentLimit = 1;
-
-  //   pivotMotorConfigs.CurrentLimits.SupplyCurrentLimit = 1;    
-
-  //   m_pivotMotor.getConfigurator().apply(pivotMotorConfigs);
-
-  // }
-
-  // public void setCurrentLimitNormal() {
-  //   var pivotMotorConfigs = new TalonFXConfiguration();
-
-  //   pivotMotorConfigs.CurrentLimits.StatorCurrentLimit = 120;
-
-  //   pivotMotorConfigs.CurrentLimits.SupplyCurrentLimit = 120;
-
-  //   m_pivotMotor.getConfigurator().apply(pivotMotorConfigs);
-
-  // }
-
-  // public Command setCurrentLimit0AndThenNormalRunEndCommand() {
-  //   return runEnd(
-  //     () -> setCurrentLimit0(),
-  //     () -> setCurrentLimitNormal()
-  //   ); 
-  // }
-
-   
 
   public void goToFramePerimeterPosition() {
     final MotionMagicVoltage m_request = new MotionMagicVoltage(IntakeConstants.framePerimeterAngle);
@@ -181,9 +146,6 @@ public class Intake extends SubsystemBase {
     setRollerMotorPercentOutput(0);
   }
 
-  // public Command goToFramePerimeterPositionCommand() {
-  //   return new InstantCommand(()-> goToAngle(IntakeConstants.framePerimeterAngle), this);
-  // }
 
 
   /* */
@@ -230,9 +192,6 @@ public class Intake extends SubsystemBase {
   
 
 
-  // public boolean motorHitHardstop() {
-
-  // }
 
 
 
@@ -241,11 +200,6 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     
     // This method will be called once per scheduler run
-    // SmartDashboard.putNumber("IntakeCANRangeDistance", intakeCANrange.getDistance().getValueAsDouble());
-    // SmartDashboard.putNumber("Intake Pivot Angle", m_pivotMotor.getPosition().getValueAsDouble());
-    // DogLog.log("Intake/IntakeCANrangeDistance", intakeCANrange.getDistance().getValueAsDouble());
-    // DogLog.log("Intake/IntakeCANrangeBoolean", intakeCANrange.getIsDetected().getValue());
-    // DogLog.log("Intake/IntakePivotAngle", m_pivotMotor.getPosition().getValueAsDouble());
 
     
   }
