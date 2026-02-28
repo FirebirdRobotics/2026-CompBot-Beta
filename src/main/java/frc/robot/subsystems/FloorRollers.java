@@ -30,8 +30,8 @@ public class FloorRollers extends SubsystemBase {
     rollerMotorConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
   
     rollerMotorConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-    rollerMotorConfigs.CurrentLimits.SupplyCurrentLimit = 60;
-    rollerMotorConfigs.CurrentLimits.StatorCurrentLimit = 60;
+    rollerMotorConfigs.CurrentLimits.SupplyCurrentLimit = 50;
+    rollerMotorConfigs.CurrentLimits.StatorCurrentLimit = 50;
   
     rollerMotorConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
     rollerMotorConfigs.CurrentLimits.StatorCurrentLimit = 50;
