@@ -29,13 +29,7 @@ public class FloorRollers extends SubsystemBase {
 
     rollerMotorConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
   
-    var intakeCANRangeConfigs = new CANrangeConfiguration();
-  
-    intakeCANRangeConfigs.ProximityParams.ProximityThreshold = 0.3;
-  
     rollerMotorConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-    rollerMotorConfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
-    rollerMotorConfigs.Feedback.SensorToMechanismRatio = 1.66666667; // reduction of 20/12 
     rollerMotorConfigs.CurrentLimits.SupplyCurrentLimit = 60;
     rollerMotorConfigs.CurrentLimits.StatorCurrentLimit = 60;
   
