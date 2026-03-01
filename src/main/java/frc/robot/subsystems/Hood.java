@@ -42,7 +42,7 @@ public class Hood extends SubsystemBase {
 
     // set slot 0 gains
     var slot0Configs = pivotMotorConfigs.Slot0;
-    slot0Configs.kG = 0.0; // Probably don't need kg
+    slot0Configs.kG = 0.0; // 
     slot0Configs.kS = 0.0; // Add 0.25 V output to overcome static friction /*VALUE HAS BEEN TUNED  */
     slot0Configs.kV = 0.0; // A velocity target of 1 rps results in 0.12 V output
     slot0Configs.kA = 0.0; // An acceleration of 1 rps/s requires 0.01 V output
