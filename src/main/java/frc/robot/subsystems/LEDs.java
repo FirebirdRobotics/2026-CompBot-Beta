@@ -38,7 +38,6 @@ public class LEDs extends SubsystemBase {
   SolidColorPattern solidGreen = new SolidColorPattern(green);
   SolidColorPattern solidBlack = new SolidColorPattern(black);
 
-  EndEffector m_EndEffector;
 
 
   public Command blinkWhiteThenStayWhite() {
