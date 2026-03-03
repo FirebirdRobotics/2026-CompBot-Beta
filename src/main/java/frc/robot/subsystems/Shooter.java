@@ -123,6 +123,8 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // DogLog.log("Elevator position", m_leader.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("Shooter Velocity RPS", m_leader.getVelocity().getValueAsDouble());
+    SmartDashboard.putNumber("Shooter Velocity RPM (NOT THE SETPOINT UNIT)", m_leader.getVelocity().getValueAsDouble() * 60);
 
   }
 
