@@ -36,8 +36,7 @@ import frc.robot.Commands.AlignToReef;
 import frc.robot.Commands.AlignToReef.ReefSide;
 import frc.robot.constants.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.EndEffector;
+import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LEDs;
 // import frc.robot.subsystems.Vision;
@@ -75,15 +74,14 @@ public class RobotContainer {
 
     Shooter m_Shooter = new Shooter(); 
 
-    Elevator m_Elevator = new Elevator();
 
     Intake intake = new Intake(m_Leds);
 
     TransferRollers m_transferRollers = new TransferRollers();
 
 
-    EndEffector m_EndEffector = new EndEffector(m_Leds);
 
+    Hood m_Hood = new Hood();
 
     // Vision vision;
 
@@ -94,13 +92,8 @@ public class RobotContainer {
     
 
     public RobotContainer() {
+        NamedCommands.registerCommand("Sets shooter output to 0 percent", Commands.parallel(m_Shooter.setPercentOutputCommand(0)));
 
-        NamedCommands.registerCommand("L1 Elevator and EE to Proper Positions", Commands.parallel(m_Elevator.goToL1(),m_EndEffector.goToL1()));
-        NamedCommands.registerCommand("L3 Elevator and EE to Proper Positions", Commands.parallel(m_Elevator.goToL3(),m_EndEffector.goToL3()));
-
-        NamedCommands.registerCommand("L4 Elevator and EE to Proper Positions", Commands.parallel(m_Elevator.goToL4(),m_EndEffector.goToL4()));
-
-        NamedCommands.registerCommand("Outake Coral", m_EndEffector.setRollerMotorPercentOutputAndThenTo0Command( 0.35).withTimeout(3));
 
         FollowPathCommand.warmupCommand().schedule();
 
@@ -118,30 +111,29 @@ public class RobotContainer {
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
 
-        drivetrain.setDefaultCommand(
-            // Drivetrain will execute this command periodically
-            drivetrain.applyRequest(() ->
-                drive.withVelocityX(joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
-            )
-        );
+        // drivetrain.setDefaultCommand(
+        //     // Drivetrain will execute this command periodically
+        //     drivetrain.applyRequest(() ->
+        //         drive.withVelocityX(joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+        //             .withVelocityY(joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+        //             .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+        //     )
+        // );
 
 
 
-        joystick.a().whileTrue(m_Shooter.testShooter());
 
 
-        joystick.b().whileTrue(drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
-        ));
+        // joystick.b().whileTrue(drivetrain.applyRequest(() ->
+        //     point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
+        // ));
 
-        joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(0.5).withVelocityY(0))
-        );
-        joystick.pov(180).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(-0.5).withVelocityY(0))
-        );
+        // joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
+        //     forwardStraight.withVelocityX(0.5).withVelocityY(0))
+        // );
+        // joystick.pov(180).whileTrue(drivetrain.applyRequest(() ->
+        //     forwardStraight.withVelocityX(-0.5).withVelocityY(0))
+        // );
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
@@ -155,12 +147,19 @@ public class RobotContainer {
 
         // drivetrain.registerTelemetry(logger::telemeterize);
 
-        joystick.x().onTrue(m_transferRollers.manualRollForwards(0.5));
-        joystick.x().onFalse(m_transferRollers.manualRollForwards(0));
+        joystick.x().onTrue(m_Shooter.setPercentOutputCommand(0.8));
+        joystick.x().onFalse(m_Shooter.setPercentOutputCommand(0));
 
-        joystick.y().onTrue(m_transferRollers.manualRollBackward(0.5));
-        joystick.y().onFalse(m_transferRollers.manualRollBackward(0));
+        joystick.y().onTrue(m_Shooter.setVelocityCommand(18));
+        joystick.y().onFalse(m_Shooter.setVelocityCommand(0));
 
+        joystick.a().onTrue(m_Hood.CommandSetDutyCycleOutput(0.1));
+        joystick.a().onFalse(m_Hood.CommandSetDutyCycleOutput(0));
+
+        joystick.b().onTrue(m_Hood.CommandGoToAngle(1));
+        joystick.b().onFalse(m_Hood.CommandGoToAngle(0.04));
+
+        
 
 
 
