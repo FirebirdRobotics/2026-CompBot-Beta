@@ -27,7 +27,7 @@ public class Hood extends SubsystemBase {
   public Hood() {
     var pivotMotorConfigs = new TalonFXConfiguration();
     
-    pivotMotorConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    pivotMotorConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive; // This is correct
     pivotMotorConfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
     // Confirm with omri that sensor to mech is correct
     pivotMotorConfigs.Feedback.SensorToMechanismRatio = 4.0;
