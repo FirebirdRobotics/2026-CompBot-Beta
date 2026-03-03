@@ -56,6 +56,18 @@ public class FloorRollers extends SubsystemBase {
       () -> setRollerMotorPercentOutput(power)
     );
   }
+
+  public Command rollOutwards(double power) {
+    return new InstantCommand(
+      () -> setRollerMotorPercentOutput(power * -1)
+    );
+  }
+
+  public Command rollInwardsCommand(double power) {
+    return new InstantCommand(
+      () -> setRollerMotorPercentOutput(power)
+    );
+  }
   
   public Command Break(double power) {
     return new InstantCommand(
