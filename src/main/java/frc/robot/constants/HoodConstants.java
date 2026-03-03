@@ -6,6 +6,6 @@ package frc.robot.constants;
 
 /** Add your docs here. */
 public class HoodConstants {
-    public static final int hoodPivotMotorID = 41;
-    
+    public static final int hoodPivotMotorID = 0; //This is correct 
+
 }
