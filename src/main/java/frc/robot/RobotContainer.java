@@ -147,7 +147,7 @@ public class RobotContainer {
 
         // drivetrain.registerTelemetry(logger::telemeterize);
 
-        joystick.x().onTrue(m_Shooter.setPercentOutputCommand(0.5));
+        joystick.x().onTrue(m_Shooter.setPercentOutputCommand(0.8));
         joystick.x().onFalse(m_Shooter.setPercentOutputCommand(0));
 
         joystick.y().onTrue(m_Shooter.setVelocityCommand(18));
@@ -156,8 +156,8 @@ public class RobotContainer {
         joystick.a().onTrue(m_Hood.CommandSetDutyCycleOutput(0.1));
         joystick.a().onFalse(m_Hood.CommandSetDutyCycleOutput(0));
 
-        joystick.b().onTrue(m_Hood.CommandSetDutyCycleOutput(-0.1));
-        joystick.b().onFalse(m_Hood.CommandSetDutyCycleOutput(0));
+        joystick.b().onTrue(m_Hood.CommandGoToAngle(1));
+        joystick.b().onFalse(m_Hood.CommandGoToAngle(0.04));
 
         
 
