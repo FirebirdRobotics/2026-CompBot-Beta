@@ -16,9 +16,10 @@ import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.HoodConstants;
 
 public class Hood extends SubsystemBase {
-    private final TalonFX m_pivotMotor = new TalonFX(41, "CANivore");
+    private final TalonFX m_pivotMotor = new TalonFX(HoodConstants.hoodPivotMotorID, "rio");
 
     
   /** Creates a new Hood. */
@@ -51,6 +52,7 @@ public class Hood extends SubsystemBase {
     slot0Configs.kD = 0.0; // A velocity error of 1 rps results in 0.1 V output
     slot0Configs.StaticFeedforwardSign = StaticFeedforwardSignValue.UseVelocitySign;
     slot0Configs.GravityType = GravityTypeValue.Arm_Cosine; 
+    
 
     var motionMagicConfigs = pivotMotorConfigs.MotionMagic;
     motionMagicConfigs.MotionMagicCruiseVelocity = 0.0; // Target cruise velocity of 80 rps
