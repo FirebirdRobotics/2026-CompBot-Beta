@@ -11,6 +11,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -41,6 +42,9 @@ public class Hood extends SubsystemBase {
     pivotMotorConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
     pivotMotorConfigs.CurrentLimits.SupplyCurrentLimit = 50;
 
+    pivotMotorConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+
+
     // set slot 0 gains
     var slot0Configs = pivotMotorConfigs.Slot0;
     slot0Configs.kG = 0.0; // 
@@ -52,7 +56,7 @@ public class Hood extends SubsystemBase {
     slot0Configs.kD = 0.0; // A velocity error of 1 rps results in 0.1 V output
     slot0Configs.StaticFeedforwardSign = StaticFeedforwardSignValue.UseVelocitySign;
     slot0Configs.GravityType = GravityTypeValue.Arm_Cosine; 
-    
+        
 
     var motionMagicConfigs = pivotMotorConfigs.MotionMagic;
     motionMagicConfigs.MotionMagicCruiseVelocity = 0.0; // Target cruise velocity of 80 rps
