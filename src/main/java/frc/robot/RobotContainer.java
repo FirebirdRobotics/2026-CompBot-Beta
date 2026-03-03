@@ -150,7 +150,7 @@ public class RobotContainer {
         joystick.x().onTrue(m_Shooter.setPercentOutputCommand(0.5));
         joystick.x().onFalse(m_Shooter.setPercentOutputCommand(0));
 
-        joystick.y().onTrue(m_Shooter.setVelocityCommand(5));
+        joystick.y().onTrue(m_Shooter.setVelocityCommand(18));
         joystick.y().onFalse(m_Shooter.setVelocityCommand(0));
 
         joystick.a().onTrue(m_Hood.CommandSetDutyCycleOutput(0.1));
