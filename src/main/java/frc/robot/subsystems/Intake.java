@@ -71,11 +71,10 @@ public class Intake extends SubsystemBase {
 
   }
 
-  public void goToAngle(double angle) {
-    // final PositionVoltage m_request = new PositionVoltage(angle).withSlot(0);
-    final MotionMagicVoltage m_request = new MotionMagicVoltage(angle);
+  public void extendToDistance(double inches) {
+    final MotionMagicVoltage m_request = new MotionMagicVoltage(inches);
 
-    m_pivotMotor.setControl(m_request.withPosition(angle));
+    m_pivotMotor.setControl(m_request.withPosition(inches));
   }
 
     public Command goToDeployAndThenToUndeployCommand() {
@@ -91,24 +90,22 @@ public class Intake extends SubsystemBase {
 
     // m_pivotMotor.setControl(m_request.withPosition(IntakeConstants.deployAngle));
 
-    final MotionMagicVoltage m_request = new MotionMagicVoltage(IntakeConstants.deployAngle);
-
-    m_pivotMotor.setControl(m_request.withPosition(IntakeConstants.deployAngle));
+    m_pivotMotor.setControl(m_request.withPosition(IntakeConstants.deployDistance));
 
     setRollerMotorPercentOutput(0.8);
 
   }
 
   public void goToFramePerimeterPosition() {
-    final MotionMagicVoltage m_request = new MotionMagicVoltage(IntakeConstants.framePerimeterAngle);
+    final MotionMagicVoltage m_request = new MotionMagicVoltage(IntakeConstants.framePerimeterDistance);
 
-    m_pivotMotor.setControl(m_request.withPosition(IntakeConstants.framePerimeterAngle));
+    m_pivotMotor.setControl(m_request.withPosition(IntakeConstants.framePerimeterDistance));
 
     setRollerMotorPercentOutput(0);
   }
 
-  public Command CommandGoToAngle(double angle) {
-    return new InstantCommand(()-> goToAngle(angle), this);
+  public Command CommandGoToDistance(double inches) {
+    return new InstantCommand(()-> extendToDistance(inches), this);
   }
 
   public void setRollerMotorPercentOutput(double outputPercent) {
