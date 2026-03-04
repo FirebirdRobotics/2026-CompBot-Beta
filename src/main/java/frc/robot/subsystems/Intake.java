@@ -86,9 +86,8 @@ public class Intake extends SubsystemBase {
   }
 
   public void goToDeployedPosition() {
-    // final PositionVoltage m_request = new PositionVoltage(IntakeConstants.deployAngle).withSlot(0);
 
-    // m_pivotMotor.setControl(m_request.withPosition(IntakeConstants.deployAngle));
+    final MotionMagicVoltage m_request = new MotionMagicVoltage(IntakeConstants.deployDistance);
 
     m_pivotMotor.setControl(m_request.withPosition(IntakeConstants.deployDistance));
 
@@ -134,6 +133,11 @@ public class Intake extends SubsystemBase {
 
   public Command goToFramePerimeterPositionCommand() {
     return runOnce(() -> goToFramePerimeterPosition());
+    
+  }
+
+  public Command goToMidPointPositionCommand() {
+    return runOnce(() -> extendToDistance(IntakeConstants.midPoint));
     
   }
 
