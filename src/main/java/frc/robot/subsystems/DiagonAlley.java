@@ -15,13 +15,13 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.constants.FloorRollerConstants;
+import frc.robot.constants.DiagonAlleyConstants;
 
 public class DiagonAlley extends SubsystemBase {
   /** Creates a new DiagonAlley. */
 
-    private final TalonFX m_leader = new TalonFX(FloorRollerConstants.floorRollerMotorCANID, "CANivore"); 
-    private final TalonFX m_follower = new TalonFX(FloorRollerConstants.floorRollerMotorCANID, "CANivore");
+    private final TalonFX m_leader = new TalonFX(DiagonAlleyConstants.rightRollerMotorCANID, "rio"); 
+    private final TalonFX m_follower = new TalonFX(DiagonAlleyConstants.leftRollerMotorCANID, "rio");
 
   
   public DiagonAlley() {
