@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 public class FloorRollers extends SubsystemBase {
   /** Creates a new FloorRollers. */
 
-  private final TalonFX m_floorroller = new TalonFX(FloorRollerConstants.floorRollerMotorCANID, "CANivore"); // change to different motor, idk what the motor is supposed to be
+  private final TalonFX m_floorroller = new TalonFX(FloorRollerConstants.floorRollerMotorCANID, "rio"); // This is correct
 
   public FloorRollers() {
 

@@ -20,8 +20,8 @@ import frc.robot.constants.DiagonAlleyConstants;
 public class DiagonAlley extends SubsystemBase {
   /** Creates a new DiagonAlley. */
 
-    private final TalonFX m_leader = new TalonFX(DiagonAlleyConstants.rightRollerMotorCANID, "rio"); 
-    private final TalonFX m_follower = new TalonFX(DiagonAlleyConstants.leftRollerMotorCANID, "rio");
+    private final TalonFX m_leader = new TalonFX(DiagonAlleyConstants.leftRollerMotorCANID, "rio"); 
+    private final TalonFX m_follower = new TalonFX(DiagonAlleyConstants.rightRollerMotorCANID, "rio");
 
   
   public DiagonAlley() {
