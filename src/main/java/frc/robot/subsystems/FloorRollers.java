@@ -27,7 +27,7 @@ public class FloorRollers extends SubsystemBase {
 
     var rollerMotorConfigs = new TalonFXConfiguration();
 
-    rollerMotorConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    rollerMotorConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
   
     rollerMotorConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     rollerMotorConfigs.CurrentLimits.SupplyCurrentLimit = 50;
