@@ -14,11 +14,11 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import frc.robot.constants.TransferRollerConstants;
 
 public class TransferRollers extends SubsystemBase {
   /** Creates a new TransferRollers. */
-  private final TalonFX m_transferRollerMotor = new TalonFX(42, "CANivore"); //change device ID
-  private final CANrange transferCANrange = new CANrange(45, "CANivore"); //change device ID
+  private final TalonFX m_transferRollerMotor = new TalonFX(TransferRollerConstants.transferRollerMotorID, "CANivore"); //change device ID
   
   public TransferRollers() {
     var transferRollerConfigs = new TalonFXConfiguration();
@@ -51,14 +51,6 @@ public class TransferRollers extends SubsystemBase {
     );
   }
 
-  public boolean checkIfLaser() {
-    return transferCANrange.getIsDetected().getValue();
-  }
 
   
-  public Command rollUntilLaser(double power) {
-    return Commands.run(() -> manualRollForwards(power), this)
-        .until(() -> checkIfLaser())
-        .finallyDo(interrupted -> manualRollForwards(0));
-  }
 }

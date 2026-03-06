@@ -4,26 +4,28 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.constants.FloorRollerConstants;
-
-import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.DiagonAlleyConstants;
 
-public class FloorRollers extends SubsystemBase {
-  /** Creates a new FloorRollers. */
+public class DiagonAlley extends SubsystemBase {
+  /** Creates a new DiagonAlley. */
 
-  private final TalonFX m_floorroller = new TalonFX(FloorRollerConstants.floorRollerMotorCANID, "rio"); // This is correct
+    private final TalonFX m_leader = new TalonFX(DiagonAlleyConstants.leftRollerMotorCANID, "rio"); 
+    private final TalonFX m_follower = new TalonFX(DiagonAlleyConstants.rightRollerMotorCANID, "rio");
 
-  public FloorRollers() {
+  
+  public DiagonAlley() {
+    m_follower.setControl(new Follower(m_leader.getDeviceID(), MotorAlignmentValue.Opposed));
 
     var rollerMotorConfigs = new TalonFXConfiguration();
 
@@ -39,18 +41,14 @@ public class FloorRollers extends SubsystemBase {
     rollerMotorConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
     rollerMotorConfigs.CurrentLimits.SupplyCurrentLimit = 50;
   
-    m_floorroller.getConfigurator().apply(rollerMotorConfigs);
-  }
+    m_leader.getConfigurator().apply(rollerMotorConfigs);
 
-  @Override
-  public void periodic() {
-    
   }
 
   public void setRollerMotorPercentOutput(double outputPercent) {
-    m_floorroller.setControl(new DutyCycleOut(outputPercent));
+    m_leader.setControl(new DutyCycleOut(outputPercent));
   }
-
+  
   public Command StartTurn(double power) {
     return new InstantCommand(
       () -> setRollerMotorPercentOutput(power)
@@ -72,6 +70,12 @@ public class FloorRollers extends SubsystemBase {
   public Command Break(double power) {
     return new InstantCommand(
       () -> setRollerMotorPercentOutput(0)
-    );
+      );
+  }
+
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
   }
 }
