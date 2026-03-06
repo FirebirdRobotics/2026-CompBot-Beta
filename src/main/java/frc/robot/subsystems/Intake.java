@@ -19,8 +19,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IntakeConstants;
 
 public class Intake extends SubsystemBase {
-  private final TalonFX m_pivotMotor = new TalonFX(IntakeConstants.pivotMotorCANID, "CANivore");
-  private final TalonFX m_rollerMotor = new TalonFX(IntakeConstants.rollerMotorCANID, "CANivore");
+  private final TalonFX m_pivotMotor = new TalonFX(IntakeConstants.pivotMotorCANID, "CANivore"); // This is correct
+  private final TalonFX m_rollerMotor = new TalonFX(IntakeConstants.rollerMotorCANID, "CANivore"); // This is correct
 
   /** Creates a new Intake. 
  * @param m_Leds */

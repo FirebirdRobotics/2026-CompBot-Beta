@@ -37,8 +37,6 @@ import frc.robot.Commands.AlignToReef.ReefSide;
 import frc.robot.constants.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.DiagonAlley;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.EndEffector;
 import frc.robot.subsystems.FloorRollers;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Intake;
@@ -161,19 +159,19 @@ public class RobotContainer {
         // joystick.x().onFalse(Commands.parallel(m_transferRollers.manualRollForwards(0), m_DiagonAlley.rollInwardsCommand(0), m_FloorRollers.rollInwardsCommand(0)));
         // ^^^^^UNCOMENT ABOVE WHEN DIAGON ALLEY ROLLERS ARE  REATTATCHED, TEMPORARILY COMMENTING OUT BECAUSE SCREWs DETATCHED^^^^^
 
-        joystick.x().onTrue(Commands.parallel(m_transferRollers.manualRollBackward(0.1), m_FloorRollers.rollInwardsCommand(0.1)));
-        joystick.x().onFalse(Commands.parallel(m_transferRollers.manualRollForwards(0), m_FloorRollers.rollInwardsCommand(0)));
+        joystick.x().onTrue(Commands.parallel(m_transferRollers.manualRollBackward(0.1), m_FloorRollers.rollInwardsCommand(0.1), m_Shooter.setVelocityCommand(18)));
+        joystick.x().onFalse(Commands.parallel(m_transferRollers.manualRollForwards(0), m_FloorRollers.rollInwardsCommand(0), m_Shooter.setVelocityCommand(0)));
         // joystick.x().onTrue(m_Shooter.setPercentOutputCommand(0.8));
         // joystick.x().onFalse(m_Shooter.setPercentOutputCommand(0));
 
         // joystick.y().onTrue(m_Shooter.setVelocityCommand(18));
         // joystick.y().onFalse(m_Shooter.setVelocityCommand(0));
 
-        joystick.x().onTrue(intake.goToDeployedPositionCommand());
-        joystick.x().onFalse(intake.goToFramePerimeterPositionCommand());
+        // joystick.x().onTrue(intake.goToDeployedPositionCommand());
+        // joystick.x().onFalse(intake.goToFramePerimeterPositionCommand());
 
-        joystick.a().onTrue(m_Hood.CommandSetDutyCycleOutput(0.1));
-        joystick.a().onFalse(m_Hood.CommandSetDutyCycleOutput(0));
+        // joystick.a().onTrue(m_Hood.CommandSetDutyCycleOutput(0.1));
+        // joystick.a().onFalse(m_Hood.CommandSetDutyCycleOutput(0));
 
         joystick.b().onTrue(m_Hood.CommandGoToAngle(1));
         joystick.b().onFalse(m_Hood.CommandGoToAngle(0.04));
