@@ -153,7 +153,7 @@ public class RobotContainer {
         // joystick.y().onTrue(m_Shooter.setVelocityCommand(18));
         // joystick.y().onFalse(m_Shooter.setVelocityCommand(0));
 
-        joystick.x().onTrue(intake.goToMidPointPositionCommand());
+        joystick.x().onTrue(intake.goToDeployedPositionCommand());
         joystick.x().onFalse(intake.goToFramePerimeterPositionCommand());
 
         joystick.a().onTrue(m_Hood.CommandSetDutyCycleOutput(0.1));
