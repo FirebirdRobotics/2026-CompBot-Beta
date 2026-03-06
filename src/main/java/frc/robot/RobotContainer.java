@@ -20,8 +20,6 @@ import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.Waypoint;
 
-// import dev.doglog.DogLog;
-// import dev.doglog.DogLogOptions;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -35,26 +33,17 @@ import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Commands.AlignToReef;
-// import frc.robot.Commands.IntakingWithIntakeUpWhileCoralInBot;
-import frc.robot.Commands.intakeUntilendEffectorOuterCANrange;
-import frc.robot.Commands.intakeUntillIntakeCANRange;
-import frc.robot.Commands.juggleCoralTillRight;
-import frc.robot.Commands.runEndEffectorUntilEndEffectorOuterCANrange;
 import frc.robot.Commands.AlignToReef.ReefSide;
-import frc.robot.Commands.runEndEffectorUntilEndEffectorOuterCANrange;
 import frc.robot.constants.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.EndEffector;
+import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LEDs;
-// import frc.robot.subsystems.TestIntake;
 // import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.TransferRollers;
 
 public class RobotContainer {
-    // TestIntake m_TestIntake = new TestIntake();
 
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
@@ -85,51 +74,30 @@ public class RobotContainer {
 
     Shooter m_Shooter = new Shooter(); 
 
-    Elevator m_Elevator = new Elevator();
 
     Intake intake = new Intake(m_Leds);
 
     TransferRollers m_transferRollers = new TransferRollers();
 
 
-    EndEffector m_EndEffector = new EndEffector(m_Leds);
 
+    Hood m_Hood = new Hood();
 
     // Vision vision;
 
 
-    Command m_RunIntakeRollersUntillIntakeCANRange = new intakeUntillIntakeCANRange(intake);
-
-    Command m_intakeUntilendEffectorOuterCANrange = new intakeUntilendEffectorOuterCANrange(intake, m_EndEffector);
-
-    runEndEffectorUntilEndEffectorOuterCANrange m_runEndEffectorUntilendEffectorOuterCANrange = new runEndEffectorUntilEndEffectorOuterCANrange(m_EndEffector);
-
-
-    juggleCoralTillRight m_juggleCoralTillRight = new juggleCoralTillRight(m_EndEffector, m_Leds);
-
-    intakeUntillIntakeCANRange m_intakeUntillIntakeCANRange = new intakeUntillIntakeCANRange(intake);
-    // Command m_IntakingWithIntakeUpWhileCoralInBot = new IntakingWithIntakeUpWhileCoralInBot(intake, m_EndEffector, m_runEndEffectorUntilendEffectorOuterCANrange);
     
     
 
     
 
     public RobotContainer() {
+        NamedCommands.registerCommand("Sets shooter output to 0 percent", Commands.parallel(m_Shooter.setPercentOutputCommand(0)));
 
-        NamedCommands.registerCommand("L1 Elevator and EE to Proper Positions", Commands.parallel(m_Elevator.goToL1(),m_EndEffector.goToL1()));
-        NamedCommands.registerCommand("L3 Elevator and EE to Proper Positions", Commands.parallel(m_Elevator.goToL3(),m_EndEffector.goToL3()));
-
-        NamedCommands.registerCommand("L4 Elevator and EE to Proper Positions", Commands.parallel(m_Elevator.goToL4(),m_EndEffector.goToL4()));
-
-        NamedCommands.registerCommand("Outake Coral", m_EndEffector.setRollerMotorPercentOutputAndThenTo0Command( 0.35).withTimeout(3));
 
         FollowPathCommand.warmupCommand().schedule();
 
         
-        // DogLog.setOptions(new DogLogOptions().withCaptureDs(true).withNtPublish(true));
-        // DogLog.setPdh(new PowerDistribution());
-
-        // DogLog.log("ExampleLog", "Hello world!");
 
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
@@ -152,27 +120,20 @@ public class RobotContainer {
         //     )
         // );
 
-/*MAKE SURE TO UNCOMMENT ABOVE SO IT CAN DRIVE!!!! */
-
-        // joystick.rightBumper().onTrue(drivetrain.goToCorralStationA());
-        // joystick.rightBumper().onTrue(drivetrain.pathfindToReefA());
-
-        // joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        // joystick.a().whileTrue(intake.CommandGoToAngle(5));
-
-        joystick.a().whileTrue(m_Shooter.testShooter());
 
 
-        joystick.b().whileTrue(drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
-        ));
 
-        joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(0.5).withVelocityY(0))
-        );
-        joystick.pov(180).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(-0.5).withVelocityY(0))
-        );
+
+        // joystick.b().whileTrue(drivetrain.applyRequest(() ->
+        //     point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
+        // ));
+
+        // joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
+        //     forwardStraight.withVelocityX(0.5).withVelocityY(0))
+        // );
+        // joystick.pov(180).whileTrue(drivetrain.applyRequest(() ->
+        //     forwardStraight.withVelocityX(-0.5).withVelocityY(0))
+        // );
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
@@ -186,71 +147,29 @@ public class RobotContainer {
 
         // drivetrain.registerTelemetry(logger::telemeterize);
 
-        joystick.rightBumper().whileTrue(new AlignToReef(drivetrain, ReefSide.LEFT, false));
-        // joystick.leftBumper().whileTrue(intake.testIntakeDeployAndUndeploy());
+        // joystick.x().onTrue(m_Shooter.setPercentOutputCommand(0.8));
+        // joystick.x().onFalse(m_Shooter.setPercentOutputCommand(0));
+
+        // joystick.y().onTrue(m_Shooter.setVelocityCommand(18));
+        // joystick.y().onFalse(m_Shooter.setVelocityCommand(0));
+
+        joystick.x().onTrue(intake.goToDeployedPositionCommand());
+        joystick.x().onFalse(intake.goToFramePerimeterPositionCommand());
+
+        joystick.a().onTrue(m_Hood.CommandSetDutyCycleOutput(0.1));
+        joystick.a().onFalse(m_Hood.CommandSetDutyCycleOutput(0));
+
+        joystick.b().onTrue(m_Hood.CommandGoToAngle(1));
+        joystick.b().onFalse(m_Hood.CommandGoToAngle(0.04));
+
         
-        // joystick.leftBumper().whileTrue(Commands.sequence(m_intakeUntilendEffectorOuterCANrange));
-
-        // joystick.a().whileTrue(intake.setRollerMotorPercentOutputCommand(0.6));
-        // joystick.rightBumper().whileTrue(Commands.sequence(intake.setRollerMotorPercentOutputAndThenTo0Command(-0.15), intake.goToFramePerimeterPositionCommand()));
-
-        // joystick.a().onTrue(m_EndEffector.toggleParty());
-
-        joystick.x().onTrue(m_transferRollers.manualRollForwards(0.5));
-        joystick.x().onFalse(m_transferRollers.manualRollForwards(0));
-
-        joystick.y().onTrue(m_transferRollers.manualRollBackward(0.5));
-        joystick.y().onFalse(m_transferRollers.manualRollBackward(0));
-
-        //Uncoment Below if want to use
-        // joystick.b().onTrue(m_transferRollers.rollUntilLaser(0.5));
-
-
-        // buttonBoardRight.button(1).whileTrue(m_Elevator.goToL1());
-        buttonBoardLeft.button(5).whileTrue(Commands.parallel(m_Elevator.goToDereefHigh(),m_EndEffector.goToDereefHigh()));
-        buttonBoardLeft.button(4).whileTrue(Commands.parallel(m_Elevator.goToDereefLow(),m_EndEffector.goToDereefLow()));
 
 
 
-        buttonBoardRight.button(1).whileTrue(Commands.parallel(m_Elevator.goToL1(),m_EndEffector.goToL1()));
-
-        buttonBoardRight.button(2).whileTrue(Commands.parallel(m_Elevator.goToL2(),m_EndEffector.goToL2()));
-        buttonBoardRight.button(3).whileTrue(Commands.parallel(m_Elevator.goToL3(),m_EndEffector.goToL3()));
-        buttonBoardRight.button(4).whileTrue(Commands.parallel(m_Elevator.goToL4(),m_EndEffector.goToL4()));
-
-        buttonBoardRight.button(5).whileTrue(Commands.parallel(m_Elevator.goToStowedPosition(),m_EndEffector.goToStowed()));
-        buttonBoardRight.button(6).whileTrue((m_EndEffector.setRollerMotorPercentOutputAndThenTo0Command(0.3)));
         buttonBoardRight.button(7).whileTrue(Commands.sequence(intake.setRollerMotorPercentOutputAndThenTo0Command(-0.25), intake.goToFramePerimeterPositionCommand()));
-        // buttonBoardRight.button(8).whileTrue((m_juggleCoralTillRight)); // THIS Crashes the code!
-        buttonBoardRight.button(9).whileTrue(
-            Commands.parallel(intake.goToDeployAndThenToUndeployCommand(), m_juggleCoralTillRight));;
 
-
-
-
-
-        // joystick.leftBumper().whileTrue(m_TestIntake.setIntakePowerCommand(-0.7));
         
     }
-
-    /*
-     * 
- intake drops to proper angle -- Roller motor rotating rollers at specified voltage -- End effector motors rotating wheels at voltage
-        	|					                    |				                                     |
-        	|					                    |----------------------------------------------------|
-        Ends When Intake 	                            Ends When End effector CANRange detects coral
-    CANRange Detects Coral
-     * 
-     * 
-     * 
-     */
-
-
-    
-
-
-
-
 
 
 
