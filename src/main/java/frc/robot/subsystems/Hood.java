@@ -87,6 +87,14 @@ public class Hood extends SubsystemBase {
     return new InstantCommand(()-> goToAngle(angle), this);
   }
 
+// Double check this later
+  public Command CommandGoToLowestAngle() {
+    return new InstantCommand(()-> goToAngle(-0.11865), this);
+  }
+
+
+  // Base position (lowest angle possible) -0.11865
+
 
   @Override
   public void periodic() {
