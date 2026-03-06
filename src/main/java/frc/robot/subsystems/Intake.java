@@ -31,31 +31,31 @@ public class Intake extends SubsystemBase {
     pivotMotorConfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
     pivotMotorConfigs.Feedback.SensorToMechanismRatio = 6.333;
 
-    pivotMotorConfigs.CurrentLimits.SupplyCurrentLimit = 50;
-    pivotMotorConfigs.CurrentLimits.StatorCurrentLimit = 50;
+    pivotMotorConfigs.CurrentLimits.SupplyCurrentLimit = 40;
+    pivotMotorConfigs.CurrentLimits.StatorCurrentLimit = 40;
 
 
     pivotMotorConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
-    pivotMotorConfigs.CurrentLimits.StatorCurrentLimit = 50;
+    pivotMotorConfigs.CurrentLimits.StatorCurrentLimit = 40;
 
     pivotMotorConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
-    pivotMotorConfigs.CurrentLimits.SupplyCurrentLimit = 50;
+    pivotMotorConfigs.CurrentLimits.SupplyCurrentLimit = 40;
 
     // set slot 0 gains
     var slot0Configs = pivotMotorConfigs.Slot0;
     slot0Configs.kG = 0.0; // Probably don't need kg
-    slot0Configs.kS = 0.18; // Add 0.25 V output to overcome static friction /*VALUE HAS BEEN TUNED  */
-    slot0Configs.kV = 0.0; // A velocity target of 1 rps results in 0.12 V output
-    slot0Configs.kA = 0.0; // An acceleration of 1 rps/s requires 0.01 V output
-    slot0Configs.kP = 0.0; // A positio n error of 2.5 rotations results in 12 V output
+    slot0Configs.kS = 0.17; // Add 0.25 V output to overcome static friction /*VALUE HAS BEEN TUNED  */
+    slot0Configs.kV = 0.23; // A velocity target of 1 rps results in 0.12 V output
+    slot0Configs.kA = 0.18; // An acceleration of 1 rps/s requires 0.01 V output
+    slot0Configs.kP = 0.121; // A positio n error of 2.5 rotations results in 12 V output
     slot0Configs.kI = 0.0; // no output for integrated error
-    slot0Configs.kD = 0.0; // A velocity error of 1 rps results in 0.1 V output
+    slot0Configs.kD = 0.3; // A velocity error of 1 rps results in 0.1 V output
     slot0Configs.StaticFeedforwardSign = StaticFeedforwardSignValue.UseVelocitySign;
     slot0Configs.GravityType = GravityTypeValue.Elevator_Static; //FRC discord smart people say to use this
 
     var motionMagicConfigs = pivotMotorConfigs.MotionMagic;
-    motionMagicConfigs.MotionMagicCruiseVelocity = 30.0; // Target cruise velocity of 80 rps
-    motionMagicConfigs.MotionMagicAcceleration = 30.0; // Target acceleration of 160 rps/s (0.5 seconds)
+    motionMagicConfigs.MotionMagicCruiseVelocity = 40; // Target cruise velocity of 80 rps
+    motionMagicConfigs.MotionMagicAcceleration = 40; // Target acceleration of 160 rps/s (0.5 seconds)
     motionMagicConfigs.MotionMagicJerk = 0.0; // Target jerk of 1600 rps/s/s (0.1 seconds)
 
     m_pivotMotor.getConfigurator().apply(pivotMotorConfigs);
@@ -71,11 +71,10 @@ public class Intake extends SubsystemBase {
 
   }
 
-  public void goToAngle(double angle) {
-    // final PositionVoltage m_request = new PositionVoltage(angle).withSlot(0);
-    final MotionMagicVoltage m_request = new MotionMagicVoltage(angle);
+  public void extendToDistance(double inches) {
+    final MotionMagicVoltage m_request = new MotionMagicVoltage(inches);
 
-    m_pivotMotor.setControl(m_request.withPosition(angle));
+    m_pivotMotor.setControl(m_request.withPosition(inches));
   }
 
     public Command goToDeployAndThenToUndeployCommand() {
@@ -87,28 +86,24 @@ public class Intake extends SubsystemBase {
   }
 
   public void goToDeployedPosition() {
-    // final PositionVoltage m_request = new PositionVoltage(IntakeConstants.deployAngle).withSlot(0);
 
-    // m_pivotMotor.setControl(m_request.withPosition(IntakeConstants.deployAngle));
+    final MotionMagicVoltage m_request = new MotionMagicVoltage(IntakeConstants.deployDistance);
 
-    final MotionMagicVoltage m_request = new MotionMagicVoltage(IntakeConstants.deployAngle);
+    m_pivotMotor.setControl(m_request.withPosition(IntakeConstants.deployDistance));
 
-    m_pivotMotor.setControl(m_request.withPosition(IntakeConstants.deployAngle));
-
-    setRollerMotorPercentOutput(0.8);
 
   }
 
   public void goToFramePerimeterPosition() {
-    final MotionMagicVoltage m_request = new MotionMagicVoltage(IntakeConstants.framePerimeterAngle);
+    final MotionMagicVoltage m_request = new MotionMagicVoltage(IntakeConstants.framePerimeterDistance);
 
-    m_pivotMotor.setControl(m_request.withPosition(IntakeConstants.framePerimeterAngle));
+    m_pivotMotor.setControl(m_request.withPosition(IntakeConstants.framePerimeterDistance));
 
     setRollerMotorPercentOutput(0);
   }
 
-  public Command CommandGoToAngle(double angle) {
-    return new InstantCommand(()-> goToAngle(angle), this);
+  public Command CommandGoToDistance(double inches) {
+    return new InstantCommand(()-> extendToDistance(inches), this);
   }
 
   public void setRollerMotorPercentOutput(double outputPercent) {
@@ -137,6 +132,11 @@ public class Intake extends SubsystemBase {
 
   public Command goToFramePerimeterPositionCommand() {
     return runOnce(() -> goToFramePerimeterPosition());
+    
+  }
+
+  public Command goToMidPointPositionCommand() {
+    return runOnce(() -> extendToDistance(IntakeConstants.midPoint));
     
   }
 
