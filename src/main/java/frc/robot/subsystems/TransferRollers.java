@@ -17,8 +17,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TransferRollers extends SubsystemBase {
   /** Creates a new TransferRollers. */
-  private final TalonFX m_transferRollerMotor = new TalonFX(42, "CANivore"); //change device ID
-  private final CANrange transferCANrange = new CANrange(45, "CANivore"); //change device ID
+  private final TalonFX m_transferRollerMotor = new TalonFX(48, "CANivore"); //Correct
+  private final CANrange transferCANrange = new CANrange(100, "CANivore"); //change device ID
   
   public TransferRollers() {
     var transferRollerConfigs = new TalonFXConfiguration();
