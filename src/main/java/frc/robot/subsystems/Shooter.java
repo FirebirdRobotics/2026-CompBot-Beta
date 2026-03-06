@@ -8,8 +8,11 @@ import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.DutyCycleOut;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
@@ -29,8 +32,8 @@ import edu.wpi.first.math.util.Units;
 
 public class Shooter extends SubsystemBase {
   // Need to configure CAN ID's
-  private final TalonFX m_leader = new TalonFX(ShooterConstants.shooterLeaderMotorID, "CANivore");
-  private final TalonFX m_follower = new TalonFX(ShooterConstants.shooterFollowerMotorID, "CANivore");
+  private final TalonFX m_leader = new TalonFX(ShooterConstants.shooterLeaderMotorID, "rio");
+  private final TalonFX m_follower = new TalonFX(ShooterConstants.shooterFollowerMotorID, "rio");
 
   
 
@@ -40,67 +43,78 @@ public class Shooter extends SubsystemBase {
     // Set follower motor to follow leader
     m_follower.setControl(new Follower(m_leader.getDeviceID(), MotorAlignmentValue.Opposed));
 
+     /* The follower motor should be following the leader motors current requests 
+     at any given time so there is no need to configure a follower motor beyond the above line*/
 
 
-    var shooterMotorConfigs = new TalonFXConfiguration();
+    var shooterLeaderMotorConfigs = new TalonFXConfiguration();
 
-    shooterMotorConfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
-    shooterMotorConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+    shooterLeaderMotorConfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
+    shooterLeaderMotorConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
-    shooterMotorConfigs.Feedback.SensorToMechanismRatio = ((1));
+    shooterLeaderMotorConfigs.Feedback.SensorToMechanismRatio = ((1)); //Gear ratio is 1 to 1
 
-    shooterMotorConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
-    shooterMotorConfigs.CurrentLimits.StatorCurrentLimit = 50;
+    shooterLeaderMotorConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
+    shooterLeaderMotorConfigs.CurrentLimits.StatorCurrentLimit = 50;
 
-    shooterMotorConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
-    shooterMotorConfigs.CurrentLimits.SupplyCurrentLimit = 50;
-
+    shooterLeaderMotorConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
+    shooterLeaderMotorConfigs.CurrentLimits.SupplyCurrentLimit = 50;
 
 
     // set slot 0 gains
-    var slot0Configs = shooterMotorConfigs.Slot0;
-    slot0Configs.kS = 0.1; // Add 0.1 V output to overcome static friction
-    slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-    slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
+    var slot0Configs = shooterLeaderMotorConfigs.Slot0;
+    slot0Configs.kS = 0.0; // Add 0.25 V output to overcome static friction
+    slot0Configs.kV = 0.0; // A velocity target of 1 rps results in 0.12 V output
+    slot0Configs.kA = 0.0; // An acceleration of 1 rps/s requires 0.01 V output
+    slot0Configs.kP = 0.0; // An error of 1 rps results in 0.11 V output
     slot0Configs.kI = 0; // no output for integrated error
-    slot0Configs.kD = 0; // no output for error derivative    
-
+    slot0Configs.kD = 0; // no output for error derivative
+    
 
     
 
     
     // set Motion Magic settings
-    var motionMagicConfigs = shooterMotorConfigs.MotionMagic;
-    motionMagicConfigs.MotionMagicCruiseVelocity = 100; // Target cruise velocity of 80 rps
-    motionMagicConfigs.MotionMagicAcceleration = 30; // Target acceleration of 160 rps/s (0.5 seconds)
-    motionMagicConfigs.MotionMagicJerk = 0.0; // Target jerk of 1600 rps/s/s (0.1 seconds)
-
-    m_leader.getConfigurator().apply(shooterMotorConfigs);
-
-  }
-
-  // spins the shooter to RPM
-  public void goToRPM(double RPM){
-
-    // create a velocity closed-loop request, voltage output, slot 0 configs
-    final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
-
-    // set velocity to 8 rps, add 0.5 V to overcome gravity
-    m_leader.setControl(m_request.withVelocity(8).withFeedForward(0.5));
-
-  }
-
-public Command testShooter() {
-
-    return runOnce(() -> goToRPM(500));
+    var motionMagicConfigs = shooterLeaderMotorConfigs.MotionMagic;
+    motionMagicConfigs.MotionMagicAcceleration = 400; // Target acceleration of 400 rps/s (0.25 seconds to max)
+    // motionMagicConfigs.MotionMagicJerk = 4000; // Target jerk of 4000 rps/s/s (0.1 seconds)
+    m_leader.getConfigurator().apply(shooterLeaderMotorConfigs);
 
 
   }
 
-  public Command goTo400RPM() {
+  // spins the shooter to RPS
+  public void goToRPS(double RPS){
+    
+    // create a Motion Magic Velocity request, voltage output
+    final MotionMagicVelocityVoltage m_request = new MotionMagicVelocityVoltage(RPS);
 
-    return runOnce(() -> goToRPM(400));
+    m_leader.setControl(m_request.withVelocity(RPS));
 
+  }
+  
+  // percent should be a value between -1 and 1, representing the percentage of max voltage to apply to the motor
+  public void setPercentOutput(double percent) {
+    m_leader.setControl(new DutyCycleOut(percent));
+  }
+
+  public Command setVelocityCommand(double RPS) {
+
+    return runOnce(() -> goToRPS(RPS));
+
+
+  }
+
+  
+  public Command setPercentOutputCommand(double percent) {
+    return runOnce(() -> setPercentOutput(percent));
+  
+  }
+
+  public Command goTo400RPS() {
+
+    return runOnce(() -> goToRPS(400));
+  
   }
 
 
@@ -109,6 +123,8 @@ public Command testShooter() {
   public void periodic() {
     // This method will be called once per scheduler run
     // DogLog.log("Elevator position", m_leader.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("Shooter Velocity RPS", m_leader.getVelocity().getValueAsDouble());
+    SmartDashboard.putNumber("Shooter Velocity RPM (NOT THE SETPOINT UNIT)", m_leader.getVelocity().getValueAsDouble() * 60);
 
   }
 
